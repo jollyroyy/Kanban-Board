@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
+import confetti from 'canvas-confetti';
 import {
   DndContext,
   DragEndEvent,
@@ -17,6 +18,36 @@ import KanbanColumn from './KanbanColumn';
 import TaskCard from './TaskCard';
 import CreateTaskDialog from './CreateTaskDialog';
 import { Loader2 } from 'lucide-react';
+
+const fireCompletionConfetti = () => {
+  const colors = ['#10b981', '#34d399', '#6ee7b7', '#fbbf24', '#f9a8d4', '#c084fc'];
+  confetti({
+    particleCount: 120,
+    spread: 80,
+    origin: { y: 0.5 },
+    colors,
+    scalar: 1.1,
+    zIndex: 9999,
+  });
+  setTimeout(() => {
+    confetti({
+      particleCount: 60,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0, y: 0.6 },
+      colors,
+      zIndex: 9999,
+    });
+    confetti({
+      particleCount: 60,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1, y: 0.6 },
+      colors,
+      zIndex: 9999,
+    });
+  }, 200);
+};
 
 const KanbanBoard = () => {
   const { tasks, isLoading, createTask, updateTask, deleteTask, moveTask } = useTasks();
@@ -74,6 +105,9 @@ const KanbanBoard = () => {
     }
 
     if (activeTaskData.status !== targetStatus || activeTaskData.position !== newPosition) {
+      if (targetStatus === 'completed' && activeTaskData.status !== 'completed') {
+        fireCompletionConfetti();
+      }
       moveTask.mutate({ taskId: activeId, newStatus: targetStatus, newPosition });
     }
   };

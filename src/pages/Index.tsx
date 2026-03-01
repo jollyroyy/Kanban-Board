@@ -25,7 +25,7 @@ const Index = () => {
   if (!user) return <Auth />;
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen premium-bg">
       <AppSidebar />
       <main className="flex-1 flex flex-col p-6 lg:p-8 overflow-hidden">
         <KanbanHeader
