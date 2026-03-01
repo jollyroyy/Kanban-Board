@@ -1,0 +1,2 @@
+
+ALTER TABLE public.tasks ADD COLUMN category TEXT DEFAULT 'general';

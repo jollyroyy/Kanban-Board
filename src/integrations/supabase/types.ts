@@ -43,6 +43,7 @@ export type Database = {
       }
       tasks: {
         Row: {
+          category: string | null
           created_at: string
           description: string | null
           due_date: string | null
@@ -57,6 +58,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          category?: string | null
           created_at?: string
           description?: string | null
           due_date?: string | null
@@ -71,6 +73,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          category?: string | null
           created_at?: string
           description?: string | null
           due_date?: string | null
