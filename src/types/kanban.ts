@@ -1,6 +1,10 @@
 export type TaskStatus = 'backlog' | 'in_progress' | 'completed';
 export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
 
+export const TASK_CATEGORIES = [
+  'General', 'Personal', 'Work', 'Bug', 'Feature', 'Design', 'DevOps', 'Documentation'
+] as const;
+
 export interface Task {
   id: string;
   user_id: string;
@@ -11,6 +15,7 @@ export interface Task {
   progress: number;
   due_date: string | null;
   tags: string[];
+  category: string | null;
   position: number;
   created_at: string;
   updated_at: string;

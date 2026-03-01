@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Task, TaskStatus, TaskPriority } from '@/types/kanban';
+import { Task, TaskStatus, TaskPriority, TASK_CATEGORIES } from '@/types/kanban';
 
 interface Props {
   open: boolean;
@@ -19,6 +19,7 @@ interface Props {
     progress: number;
     due_date?: string;
     tags?: string[];
+    category?: string;
   }) => void;
   defaultStatus?: TaskStatus;
   editingTask?: Task | null;
@@ -32,6 +33,7 @@ const CreateTaskDialog = ({ open, onOpenChange, onSubmit, defaultStatus = 'backl
   const [progress, setProgress] = useState(editingTask?.progress || 0);
   const [dueDate, setDueDate] = useState(editingTask?.due_date || '');
   const [tagsInput, setTagsInput] = useState(editingTask?.tags?.join(', ') || '');
+  const [category, setCategory] = useState(editingTask?.category || 'general');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,6 +46,7 @@ const CreateTaskDialog = ({ open, onOpenChange, onSubmit, defaultStatus = 'backl
       progress,
       due_date: dueDate || undefined,
       tags: tags.length > 0 ? tags : undefined,
+      category,
     });
     resetForm();
     onOpenChange(false);
@@ -51,7 +54,7 @@ const CreateTaskDialog = ({ open, onOpenChange, onSubmit, defaultStatus = 'backl
 
   const resetForm = () => {
     setTitle(''); setDescription(''); setStatus(defaultStatus);
-    setPriority('medium'); setProgress(0); setDueDate(''); setTagsInput('');
+    setPriority('medium'); setProgress(0); setDueDate(''); setTagsInput(''); setCategory('general');
   };
 
   return (
@@ -93,6 +96,17 @@ const CreateTaskDialog = ({ open, onOpenChange, onSubmit, defaultStatus = 'backl
                 </SelectContent>
               </Select>
             </div>
+          </div>
+          <div className="space-y-2">
+            <Label>Category</Label>
+            <Select value={category} onValueChange={setCategory}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {TASK_CATEGORIES.map((cat) => (
+                  <SelectItem key={cat} value={cat.toLowerCase()}>{cat}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-2">
             <Label>Progress: {progress}%</Label>

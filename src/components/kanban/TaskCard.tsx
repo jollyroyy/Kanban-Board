@@ -1,6 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Task, TaskPriority } from '@/types/kanban';
+import { Task, TaskPriority, TASK_CATEGORIES } from '@/types/kanban';
 import { Calendar, GripVertical, MoreHorizontal, Trash2, Edit } from 'lucide-react';
 import { format } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
@@ -91,9 +91,18 @@ const TaskCard = ({ task, onEdit, onDelete }: Props) => {
         {task.title}
       </h3>
       {task.description && (
-        <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
+        <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
           {task.description}
         </p>
+      )}
+
+      {/* Category */}
+      {task.category && task.category !== 'general' && (
+        <div className="mb-3">
+          <Badge variant="secondary" className="text-[10px] px-2 py-0.5 font-semibold capitalize">
+            {task.category}
+          </Badge>
+        </div>
       )}
 
       {/* Tags */}

@@ -29,6 +29,7 @@ export const useTasks = () => {
       priority?: TaskPriority;
       due_date?: string;
       tags?: string[];
+      category?: string;
     }) => {
       const maxPos = tasks
         .filter(t => t.status === (task.status || 'backlog'))
